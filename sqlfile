@@ -1,0 +1,59 @@
+create database subjects;
+use subjects;
+CREATE TABLE subjects (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    dept VARCHAR(255),
+    subjects VARCHAR(255),
+    years INT,
+	total_seats INT,
+	available_seats INT
+);
+INSERT INTO subjects (dept, subjects, years, total_seats, available_seats) VALUES 
+('EEE', 'Electrical Machines', 3, 50, 20),
+('EEE', 'Power Electronics', 4, 50, 20),
+('EEE', 'Control Systems', 3, 50, 20),
+('ECE', 'Analog Electronics', 4, 60, 20),
+('ECE', 'Digital Signal Processing', 3, 60, 20),
+('ECE', 'Communication Systems', 4, 60, 20),
+('IT', 'Data Structures', 3, 70, 20),
+('IT', 'Algorithms', 4, 70, 20),
+('IT', 'Database Management Systems', 3, 70, 20),
+('CSE', 'Software Engineering', 4, 80, 20),
+('CSE', 'Operating Systems', 3, 80, 20),
+('CSE', 'Computer Networks', 4, 80, 20),
+('Mech', 'Mechanics', 3, 90, 20),
+('Mech', 'Thermodynamics', 4, 90, 20),
+('Mech', 'Fluid Mechanics', 3, 90, 20),
+('Bio Tech', 'Biotechnology Fundamentals', 4, 100, 20),
+('Bio Tech', 'Cell Biology', 3, 100, 20),
+('Bio Tech', 'Genetics', 4, 100, 20),
+('Civil', 'Structural Analysis', 3, 110, 20),
+('Civil', 'Transportation Engineering', 4, 110, 20),
+('Civil', 'Environmental Engineering', 3, 110, 20),
+('Civil', 'Geotechnical Engineering', 4, 110, 20),
+('Civil', 'Construction Management', 3, 110, 20);
+SELECT subjects, total_seats, available_seats FROM subjects WHERE dept <> 'CSE' AND years = 3
+
+;
+CREATE TABLE selected_subjects (
+    register_no INT PRIMARY KEY,
+    name VARCHAR(255),
+    dept VARCHAR(50),
+    years VARCHAR(50),
+    subject VARCHAR(255)
+);
+ALTER TABLE selected_subjects
+MODIFY COLUMN register_no BIGINT(12);
+select * from selected_subjects;
+select * from subjects;
+UPDATE subjects SET available_seats = 25 WHERE  years = 4 AND subjects = 'Control System';
+ALTER TABLE subjects
+ADD CONSTRAINT check_available_seats CHECK (available_seats >= 0);
+SELECT dept, subjects, total_seats, available_seats FROM subjects  where dept NOT LIKE '%  %'  AND years = 0;
+CREATE TABLE timestamps (
+    arrival_timestamp DATETIME,
+    disable_timestamp DATETIME
+);
+INSERT INTO timestamps (arrival_timestamp, disable_timestamp) VALUES
+('2024-04-01 12:36:00', '2024-04-01 14:00:00');
+select * from timestamps;
