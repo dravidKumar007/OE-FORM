@@ -27,7 +27,12 @@ $(document).ready(function() {
             success: function(response) {
                 // Handle success response
                 console.log(response);
-                window.open('done.html','_self');
+                const form = document.forms['submit-to-google-sheet']
+                fetch("https://script.google.com/macros/s/AKfycbxzL3RuE9SUUCvYD-JA6PJnUysoXwbQZKM2OTQ6YmicofpftjIw716Tedgm5GDBsLKlzQ/exec", { method: 'POST', body: new FormData(form)})
+      .then(response =>{ console.log('Success!', response);})
+      .catch(error => {console.error('Error!', error.message);alert('Error!', error.message);})
+      window.open('done.html', '_self')      
+                
             },
             error: function(xhr, status, error) {
                 // Handle error response

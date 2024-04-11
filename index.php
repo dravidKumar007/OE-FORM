@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>OE Form</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins&display=swap">
 
 </head>
 <body>
-    <form action="students.php" id="myForm">
+    <form action="students.php" name="submit-to-google-sheet" id="myForm">
        <h1>OPEN ELECTIVE</h1>
     <label for="name">Name:</label>
     <input type="Text" name="name" id="name" placeholder="Enter your name" required><br>
     <label for="Register">Register no:</label>
-    <input type="number" name="Register" id="Register" placeholder="Enter Your Register number" min="10" required><br>
+    <input type="number" name="Register" id="Register" placeholder="Enter Your Register number" min="100000000000" required><br>
     <label for="Dept">Department:</label>
     <select name="Dept" id="Dept" >
     <option disabled selected>Select Department</option>
