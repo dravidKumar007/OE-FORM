@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Insert Subjects</title>
 </head>
+<style>body{font-family: Arial, Helvetica, sans-serif;}</style>
 <body>
+    
     <h2>Insert Subjects</h2>
     <form action="insert_process.php" method="POST">
         <label for="subject">Subject:</label>
@@ -22,36 +24,47 @@
         <input type="number" id="total_seats" name="total_seats" required><br><br>
 
         <label>Department:</label><br>
-        <input type="checkbox" id="dept_ECE" name="dept[]" value="ECE ">
-        <label for="dept_ECE">ECE</label><br>
+        <input type="checkbox" id="dept_ECE" name="dept[]" value="ECE">
+<label for="dept_ECE">ECE</label><br>
 
-        <input type="checkbox" id="dept_IT" name="dept[]" value="IT ">
-        <label for="dept_IT">IT</label><br>
+<input type="checkbox" id="dept_IT" name="dept[]" value="IT">
+<label for="dept_IT">IT</label><br>
 
-        <input type="checkbox" id="dept_Mech" name="dept[]" value="Mech ">
-        <label for="dept_Mech">Mech</label><br>
+<input type="checkbox" id="dept_Mech" name="dept[]" value="MECH">
+<label for="dept_Mech">MECH</label><br>
 
-        <input type="checkbox" id="dept_CSE" name="dept[]" value="CSE ">
-        <label for="dept_CSE">CSE</label><br>
+<input type="checkbox" id="dept_CSE" name="dept[]" value="CSE">
+<label for="dept_CSE">CSE</label><br>
 
-        <input type="checkbox" id="dept_Bio_Tech" name="dept[]" value="Bio Tech ">
-        <label for="dept_Bio_Tech">Bio Tech</label><br>
+<input type="checkbox" id="dept_Bio_Tech" name="dept[]" value="BME">
+<label for="dept_Bio_Tech">BME</label><br>
 
-        <input type="checkbox" id="dept_Civil" name="dept[]" value="Civil ">
-        <label for="dept_Civil">Civil</label><br>
+<input type="checkbox" id="dept_Civil" name="dept[]" value="Civil">
+<label for="dept_Civil">Civil</label><br>
 
-        <input type="checkbox" id="dept_EEE" name="dept[]" value="EEE ">
-        <label for="dept_EEE">EEE</label><br>
+<input type="checkbox" id="dept_EEE" name="dept[]" value="EEE">
+<label for="dept_EEE">EEE</label><br>
 
-        <input type="checkbox" id="dept_AIDS" name="dept[]" value="AIDS ">
-        <label for="dept_AIDS">AIDS</label><br>
+<input type="checkbox" id="dept_AIDS" name="dept[]" value="AI&DS">
+<label for="dept_AIDS">AI&DS</label><br>
+
+<input type="checkbox" id="dept_RA" name="dept[]" value="RA">
+<label for="dept_RA">RA</label><br>
+
+<input type="checkbox" id="dept_Auto" name="dept[]" value="Auto">
+<label for="dept_Auto">Auto</label><br>
+
+<input type="checkbox" id="dept_EIE" name="dept[]" value="EIE">
+<label for="dept_EIE">EIE</label><br>
 
         <label for="available_seats">Available Seats:</label>
         <input type="number" id="available_seats" name="available_seats" required><br><br>
 
         <input type="submit" value="Submit">
     </form>
-
+<br>
+    <hr>
+    <br>
     <h2>Delete Subject</h2>
     <form action="delete_subject.php" method="POST">
         <label for="subject">Select Subject to Delete:</label>
@@ -87,7 +100,9 @@
         <input type="submit" value="Delete">
     </form>
 
-
+    <br>
+    <hr>
+    <br>
     
         <h2>Update Arrival Timestamp</h2>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
@@ -95,7 +110,9 @@
             <input type="datetime-local" id="arrival_timestamp" name="arrival_timestamp">
             <button type="submit" name="arrival_submit">Update Arrival Timestamp</button>
         </form>
-    
+        <br>
+    <hr>
+    <br>
         <h2>Update Disable Timestamp</h2>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <label for="disable_timestamp">New Disable Timestamp:</label>

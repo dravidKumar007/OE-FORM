@@ -46,14 +46,22 @@ $(document).ready(function() {
         url: 'get_timestamps.php',
         dataType: 'json',
         success: function(timestamps) {
+            var time=new Date()
+            console.log(time*1000)
             var currentTimestamp = timestamps.current_timestamp * 1000; // Multiply by 1000 to convert to milliseconds
-            var disableTimestamp = timestamps.disable_timestamp * 1000; // Multiply by 1000 to convert to milliseconds
-            var arrivalTimestamp = timestamps.arrival_timestamp * 1000; // Multiply by 1000 to convert to milliseconds
-            console.log("current:"+currentTimestamp)
+            var disableTimestamp =( (timestamps.disable_timestamp * 1000)-12600000); // Multiply by 1000 to convert to milliseconds
+            var arrivalTimestamp = ((timestamps.arrival_timestamp * 1000)-12600000); // Multiply by 1000 to convert to milliseconds
+            console.log("current:"+timestamps.current_timestamp)
             console.log("disable:"+disableTimestamp)
             console.log("arrivalTimestamp:"+arrivalTimestamp)
-            if (currentTimestamp < disableTimestamp && currentTimestamp >= arrivalTimestamp) {
-                $('#submitButton').prop('disabled', true);
+            console.log((currentTimestamp < disableTimestamp))
+            console.log((currentTimestamp >= arrivalTimestamp))
+            console.log(!(currentTimestamp < disableTimestamp && currentTimestamp > arrivalTimestamp))
+            if (!(currentTimestamp < disableTimestamp && currentTimestamp > arrivalTimestamp)) {
+                $('#submitButton').prop('disabled', true); // Disable the submit button
+    $('#submitButton').css('background-color', 'red'); // Change button color to red
+    $('#submitButton').text('disabled'); // Change button text to "disabled"
+    $('#submitButton').css('cursor', 'not-allowed');
             }
         },
         error: function(xhr, status, error) {

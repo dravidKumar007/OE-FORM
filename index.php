@@ -22,9 +22,14 @@
         <option value="CSE">CSE</option>
         <option value="IT">IT</option>
         <option value="MECH">MECH</option>
-        <option value="BIO TECH">BIO TECH</option>
+        <option value="BME">BME</option>
         <option value="EEE">EEE</option>
         <option value="ECE">ECE</option>
+        <option value="AI&DS">AI&DS</option>
+        <option value="Civil">Civil</option>
+        <option value="RA">RA</option>
+        <option value="Auto">Auto</option>
+        <option value="EIE">EIE</option>
     </select><br>
     <label for="year">Year:</label>
     <select name="year" id="year">
@@ -42,7 +47,7 @@
 
 ?>
 </select><br>
-<button type="submit" id='submitButton' onclick="">Submit</button>  
+<button type="submit" id='submitButton' >Submit</button>  
 </form>
    <script src="script.js">
 

@@ -6,7 +6,7 @@ if ($response === FALSE) {
     die("Error fetching current timestamp from World Time API");
 }
 $data = json_decode($response, TRUE);
-$current_timestamp = strtotime($data['utc_datetime']);
+$current_timestamp = strtotime($data['datetime']);
 
 // Database connection parameters
 $servername = "localhost";
