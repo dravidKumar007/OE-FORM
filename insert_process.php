@@ -32,7 +32,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("ssiis", $dept_string, $subject, $years, $total_seats, $available_seats);
     if ($stmt->execute()) {
         echo "Subject inserted successfully";
-        header("Location:insert.php");
+        echo"<script>window.location.href='insert.php'</script>";
+        
     } else {
         echo "Error inserting subject: " . $stmt->error;
     }

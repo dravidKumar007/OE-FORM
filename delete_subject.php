@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("s", $subject);
     if ($stmt->execute()) {
         echo "Subject deleted successfully";
-        header("Location:insert.php");
+        echo"<script>window.location.href='insert.php'</script>";
         exit;
     } else {
         echo "Error deleting subject: " . $stmt->error;
