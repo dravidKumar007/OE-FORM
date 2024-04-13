@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Page</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins&display=swap">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <form id="subjectForm">
+        <h1>Select Subjects</h1><br>
+        <label for="subjectSelect">Select Subject:</label>
+        <select id="subjectSelect" name="subjectSelect">
+            <!-- Dropdown options will be dynamically populated here -->
+        </select>
+        <br>
+        <button type="submit" id="submitButton">Submit</button>
+    </form>
+
+    <script>
+        $(document).ready(function() {
+            // Function to retrieve department and years based on register number
+            function getRegisterInfo() {
+                $.ajax({
+                    type: "GET",
+                    url: "get_register_info.php",
+                    success: function(response) {
+                        // Parse JSON response
+                        var data = JSON.parse(response);
+                        // Store department and years in variables
+                        var dept = data.dept;
+                        var years = data.years;
+                        // Call function to get subjects based on department and years
+                        getSubjects(dept, years);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("An error occurred while retrieving register info:", error);
+                    }
+                });
+            }
+           
+           
+           
+           
+           
+            $.ajax({
+        type: 'GET',
+        url: 'get_timestamps.php',
+        dataType: 'json',
+        success: function(timestamps) {
+            var time=new Date()
+            console.log(time*1000)
+            var currentTimestamp = timestamps.current_timestamp * 1000; // Multiply by 1000 to convert to milliseconds
+            var disableTimestamp =( (timestamps.disable_timestamp * 1000)-12600000); // Multiply by 1000 to convert to milliseconds
+            var arrivalTimestamp = ((timestamps.arrival_timestamp * 1000)-12600000); // Multiply by 1000 to convert to milliseconds
+            console.log("current:"+timestamps.current_timestamp)
+            console.log("disable:"+disableTimestamp)
+            console.log("arrivalTimestamp:"+arrivalTimestamp)
+            console.log((currentTimestamp < disableTimestamp))
+            console.log((currentTimestamp >= arrivalTimestamp))
+            console.log(!(currentTimestamp < disableTimestamp && currentTimestamp > arrivalTimestamp))
+            if (!(currentTimestamp < disableTimestamp && currentTimestamp > arrivalTimestamp)) {
+                $('#submitButton').prop('disabled', true); // Disable the submit button
+    $('#submitButton').css('background-color', 'red'); // Change button color to red
+    $('#submitButton').text('disabled'); // Change button text to "disabled"
+    $('#submitButton').css('cursor', 'not-allowed');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error fetching timestamps:', error);
+        }
+    });
+            // Function to retrieve subjects based on department and years
+            function getSubjects(dept, years) {
+                $.ajax({
+                    type: "GET",
+                    url: "get_subjects.php",
+                    data: { dept: dept, years: years },
+                    success: function(response) {
+                        // Parse JSON response
+                        var subjects = JSON.parse(response);
+                        // Populate dropdown menu with subjects and available seats
+                        subjects.forEach(function(subject) {
+                            $('#subjectSelect').append($('<option>', {
+                                value: subject.subject,
+                                text: subject.subject + " (Available Seats: " + subject.available_seats + ")"
+                            }));
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("An error occurred while retrieving subjects:", error);
+                    }
+                });
+            }
+
+            // Call function to retrieve register info when document is ready
+            getRegisterInfo();
+
+            // Handle form submission
+            $('#subjectForm').submit(function(event) {
+                event.preventDefault();
+                // Get selected subject
+                var selectedSubject = $('#subjectSelect').val();
+                // Send AJAX request to save selected subject in the database
+                $.ajax({
+                    type: "POST",
+                    url: "save_subject.php",
+                    data: { subject: selectedSubject },
+                    success: function(response) {
+                        alert(response); // Show success message
+                        window.location.href="done.html"
+                    },
+                    error: function(xhr, status, error) {
+                        if((xhr.responseText).includes('Duplicate entry'))
+                        alert("Already booked the subject")
+                        else
+                        alert( xhr.responseText); // Log error message
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

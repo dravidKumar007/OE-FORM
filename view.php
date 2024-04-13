@@ -29,6 +29,7 @@
                 <th>Department</th>
                 <th>Year</th>
                 <th>Subject</th>
+                <th>insertion_time</th>
             </tr>
         </thead>
         <tbody>
@@ -48,7 +49,9 @@
             }
 
             // Fetch data from the selected_subjects table
-            $sql = "SELECT * FROM selected_subjects";
+            $sql = "SELECT s.register_no, s.name,s.years, s.dept,ss.insertion_time , ss.subjects
+            FROM students s
+            INNER JOIN selected_subjects ss ON s.register_no = ss.register_no;";
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
@@ -59,7 +62,8 @@
                     echo "<td>" . $row["name"] . "</td>";
                     echo "<td>" . $row["dept"] . "</td>";
                     echo "<td>" . $row["years"] . "</td>";
-                    echo "<td>" . $row["subject"] . "</td>";
+                    echo "<td>" . $row["subjects"] . "</td>";
+                     echo "<td>" . $row["insertion_time"] . "</td>";
                     echo "</tr>";
                 }
             } else {
@@ -105,7 +109,7 @@
     ?>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
         <p>Are you sure you want to delete all records from the selected_subjects table?</p>
-        <button type="submit" name="delete_all">Delete All</button>
+        <button type="submit" name="delete_all">Delete All selectedSubject</button>
     </form>
 
 

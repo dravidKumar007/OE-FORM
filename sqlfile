@@ -57,3 +57,23 @@ CREATE TABLE timestamps (
 INSERT INTO timestamps (arrival_timestamp, disable_timestamp) VALUES
 ('2024-04-01 12:36:00', '2024-04-01 14:00:00');
 select * from timestamps;
+
+
+------------------------------------------------------------------------------------
+<--extra-->
+ use subjects;
+select * from students;
+drop table students;
+drop table selected_subjects ;
+CREATE TABLE selected_subjects (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    register_no BIGINT(12) unique, -- Foreign key
+    subjects VARCHAR(50),
+    insertion_time DATETIME DEFAULT NOW(),
+    FOREIGN KEY (register_no) REFERENCES students (register_no)
+);
+
+select * from selected_subjects;
+SELECT s.register_no, s.name,s.years, s.dept, ss.subjects,ss.insertion_time 
+            FROM students s
+            INNER JOIN selected_subjects ss ON s.register_no = ss.register_no;

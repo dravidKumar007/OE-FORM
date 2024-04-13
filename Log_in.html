@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOG_IN</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins&display=swap">
+</head>
+<body>
+    <form name="submit-to-google-sheet" id="myForm">
+     
+
+            <h1>LOG IN</h1><br>
+            
+            <label for="Email">Email</label>
+            <input type="email" name="Email" id="Email" placeholder="Enter email"><br><br>
+            <label for="Password">Password</label>
+            <input type="password" name="Password" id="Password"><br><br>
+            <button type="button" id="submitButton">Submit</button>  
+       
+     </form>
+</body>
+
+<script>
+    $(document).ready(function() {
+        $("#submitButton").click(function() {
+            var email = $("#Email").val().trim();
+            var password = $("#Password").val().trim();
+            
+            // Validate email and password (client-side)
+            if (email === "" || password === "") {
+                alert("Please enter both email and password.");
+                return;
+            }
+
+            // Send the form data to the server using AJAX
+            $.ajax({
+                type: "POST",
+                url: "login.php",
+                data: { email: email, password: password },
+                success: function(response) {
+                   
+                        // Display appropriate error message if login fails
+                        alert(response);  window.location.href = "book.html";
+                    
+                },
+                error: function(xhr, status, error) {
+                    // Display a generic error message for server errors
+                    alert("An error occurred while processing your request: " + xhr.responseText);
+                }
+            });
+        });
+    });
+</script>
+</html>
