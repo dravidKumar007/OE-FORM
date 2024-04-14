@@ -12,7 +12,7 @@
     <form id="subjectForm">
         <h1>Select Subjects</h1><br>
         <center>
-
+            <h3 id="userEmailDisplay"></h3>
             <h5 id="register"></h5>
         </center>
         <label for="subjectSelect">Select Subject:</label>
@@ -25,76 +25,75 @@
 
     <script>
         $(document).ready(function() {
-            // Function to retrieve department and years based on register number
-            function getRegisterInfo() {
-                $.ajax({
-                    type: "GET",
-                    url: "get_register_info.php",
-                    success: function(response) {
-                        // Parse JSON response
-                        var data = JSON.parse(response);
-                        // Store department and years in variables
-                        var dept = data.dept;
-                        var years = data.years;
-                        // Call function to get subjects based on department and years
-                        getSubjects(dept, years);
-                    },
-                    error: function(xhr, status, error) {
-                        console.error("An error occurred while retrieving register info:", error);
-                    }
-                });
+            // Retrieve user email from local storage
+            var userEmail = localStorage.getItem('userEmail');
+            if (userEmail) {
+                $("#userEmailDisplay").text("Logged in as: " + userEmail);
+   getreg(userEmail);
+            } else {
+                $("#userEmailDisplay").text("Login again: the email is not stored properly");
             }
+
+            // Retrieve registration number
+            var registrationNumber;
+            var years;
+            var dept;
+function getreg(userEmail){
             $.ajax({
-                    type: "GET",
-                    url: "get_register_number.php",
-                    success: function(response) {
-                        $('#register').text("Register number : "+response);
-                    },
-                    error: function(xhr, status, error) {
-                        $('#register').text("Login another time \n Error:"+xhr.responseText)
+                type: "GET",
+                url: "get_register_number.php",
+                data: { email: userEmail },
+                success: function(response) {
+                    alert(response);
+                    var data = JSON.parse(response);
+                    if (data.registrationNumber) {
+                        registrationNumber = data.registrationNumber;
+                            years = data.years;
+                            dept = data.dept;
+                            console.log(registrationNumber)
+                        $('#register').text("Registration Number: " + registrationNumber);
+                        getSubjects(dept,years );
+                    } else {
+                        alert("No registration number found for the given email.");
                     }
-                })
-           
-           
-           
-           
-            $.ajax({
-        type: 'GET',
-        url: 'get_timestamps.php',
-        dataType: 'json',
-        success: function(timestamps) {
-            var time=new Date()
-            console.log(time*1000)
-            var currentTimestamp = timestamps.current_timestamp * 1000; // Multiply by 1000 to convert to milliseconds
-            var disableTimestamp =( (timestamps.disable_timestamp * 1000)-12600000); // Multiply by 1000 to convert to milliseconds
-            var arrivalTimestamp = ((timestamps.arrival_timestamp * 1000)-12600000); // Multiply by 1000 to convert to milliseconds
-            console.log("current:"+timestamps.current_timestamp)
-            console.log("disable:"+disableTimestamp)
-            console.log("arrivalTimestamp:"+arrivalTimestamp)
-            console.log((currentTimestamp < disableTimestamp))
-            console.log((currentTimestamp >= arrivalTimestamp))
-            console.log(!(currentTimestamp < disableTimestamp && currentTimestamp > arrivalTimestamp))
-            if (!(currentTimestamp < disableTimestamp && currentTimestamp > arrivalTimestamp)) {
-                $('#submitButton').prop('disabled', true); // Disable the submit button
-    $('#submitButton').css('background-color', 'red'); // Change button color to red
-    $('#submitButton').text('disabled'); // Change button text to "disabled"
-    $('#submitButton').css('cursor', 'not-allowed');
-            }
-        },
-        error: function(xhr, status, error) {
-            console.error('Error fetching timestamps:', error);
+                },
+                error: function(xhr, status, error) {
+                    alert("An error occurred while retrieving the registration number: " + xhr.responseText);
+                }
+            });
         }
-    });
-            // Function to retrieve subjects based on department and years
+
+            // Disable submit button based on timestamp
+            $.ajax({
+                type: 'GET',
+                url: 'get_timestamps.php',
+                dataType: 'json',
+                success: function(timestamps) {
+                    var currentTimestamp = Date.now();
+                    var disableTimestamp = timestamps.disable_timestamp * 1000 - 12600000;
+                    var arrivalTimestamp = timestamps.arrival_timestamp * 1000 - 12600000;
+                    if (!(currentTimestamp < disableTimestamp && currentTimestamp > arrivalTimestamp)) {
+                        $('#submitButton').prop('disabled', true);
+                        $('#submitButton').css('background-color', 'red');
+                        $('#submitButton').text('Disabled');
+                        $('#submitButton').css('cursor', 'not-allowed');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching timestamps:', error);
+                }
+            });
+
+            // Retrieve subjects based on department and years
+
+
             function getSubjects(dept, years) {
                 $.ajax({
                     type: "GET",
                     url: "get_subjects.php",
                     data: { dept: dept, years: years },
                     success: function(response) {
-                        // Parse JSON response
                         var subjects = JSON.parse(response);
-                        // Populate dropdown menu with subjects and available seats
                         subjects.forEach(function(subject) {
                             $('#subjectSelect').append($('<option>', {
                                 value: subject.subject,
@@ -108,28 +107,27 @@
                 });
             }
 
-            // Call function to retrieve register info when document is ready
-            getRegisterInfo();
+            // Call function to retrieve subjects
+            getSubjects();
 
             // Handle form submission
             $('#subjectForm').submit(function(event) {
                 event.preventDefault();
-                // Get selected subject
                 var selectedSubject = $('#subjectSelect').val();
-                // Send AJAX request to save selected subject in the database
                 $.ajax({
                     type: "POST",
                     url: "save_subject.php",
-                    data: { subject: selectedSubject },
+                    data: { register_no: registrationNumber, subject: selectedSubject },
                     success: function(response) {
-                        alert(response); // Show success message
-                        window.location.href="done.html"
+                        alert(response);
+                        window.location.href = "done.html";
                     },
                     error: function(xhr, status, error) {
-                        if((xhr.responseText).includes('Duplicate entry'))
-                        alert("Already booked the subject")
-                        else
-                        alert( xhr.responseText); // Log error message
+                        if ((xhr.responseText).includes('Duplicate entry')) {
+                            alert("Already booked the subject");
+                        } else {
+                            alert(xhr.responseText);
+                        }
                     }
                 });
             });

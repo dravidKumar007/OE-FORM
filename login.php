@@ -1,7 +1,7 @@
 
 
 <?php
-session_start();
+
 // Check if the form is submitted via POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve form data
@@ -37,8 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Verify the password
             if ($password=== $hashed_password) {
-                // Password is correct, set session variable
-                $_SESSION["register_no"] = $register_no;
+
                 // Return a 200 success response
                 http_response_code(200);
                 echo "success";

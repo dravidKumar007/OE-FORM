@@ -41,6 +41,7 @@
                 // Re-enable the submit button
                 $("#submitButton").prop('disabled', false);
                 $("#submitButton").text('Submit');
+                
                 return;
             }
 
@@ -49,10 +50,15 @@
                 type: "POST",
                 url: "login.php",
                 data: { email: email, password: password },
-                success: function(response) {
+                success: function (response) {
                     // Display appropriate error message if login fails
                     alert(response);
-                    window.location.href = "book.html";
+                    localStorage.setItem('userEmail', email);
+                    return new Promise(function(resolve) {
+        resolve();
+    }).then(function() {
+        window.location.href = "book.html";
+    });
                 },
                 error: function(xhr, status, error) {
                     alert("An error occurred while submitting the form: " + xhr.responseText);
