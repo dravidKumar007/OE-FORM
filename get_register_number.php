@@ -7,6 +7,7 @@ if(isset($_SESSION['register_no'])) {
     echo $_SESSION['register_no'];
 } else {
     // Output an error message if register number is not set
+    http_response_code(402);
     echo "Register number not found in session.";
 }
 ?>

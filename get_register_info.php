@@ -36,6 +36,7 @@ if (isset($_SESSION['register_no'])) {
     echo json_encode(array("dept" => $dept, "years" => $years));
 } else {
     // Register number not set in session
+    http_response_code(500);
     echo "Register number not found.";
 }
 ?>

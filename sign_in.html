@@ -17,7 +17,7 @@
         <label for="Register">Register no:</label>
         <input type="number" name="Register" id="Register" placeholder="Enter Your Register number" min="100000000000" required><br>
         <label for="Dept">Department:</label>
-        <select name="Dept" id="Dept">
+        <select name="Dept" id="Dept" required>
             <option disabled selected>Select Department</option>
             <option value="CSE">CSE</option>
             <option value="IT">IT</option>
@@ -31,32 +31,70 @@
             <option value="Auto">Auto</option>
             <option value="EIE">EIE</option>
         </select><br>
-        <label for="year">Year:</label>
-        <select name="year" id="year">
-            <option value="" disabled selected>Select Year</option>
+        <label for="year"  >Year:</label>
+        <select name="year" required id="year">
+            <option  disabled selected>Select Year</option>
             <option value="3">Third year</option>
             <option value="4">Fourth year</option>
         </select><br>
         <label for="Email">Email:</label>
-        <input type="email" name="Email" id="Email" placeholder="Enter your email"><br><br>
-        <label for="Password">Password:</label>
-        <input type="password" name="Password" id="Password" placeholder="Enter Password"><br><br>
+        <input
+        style=
+ "       width: 100%;
+        padding: 8px;
+        margin-bottom: 15px;
+        border-radius: 3px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+ "       
+        type="email" name="Email" id="Email" placeholder="Enter your email" required><br>
+        <label for="Password" >Password:</label>
+        <input required minlength="12"
+        style=
+        "       width: 100%;
+               padding: 8px;
+               margin-bottom: 15px;
+               border-radius: 3px;
+               border: 1px solid #ccc;
+               box-sizing: border-box;
+        " 
+        
+        type="password" name="Password" id="Password" placeholder="Enter Password"><br>
         <label for="Confirm">Confirm Password:</label>
-        <input type="password" name="Confirm" placeholder="Confirm Password" id="Confirm">  <br> <br> 
-        <button type="button" id="submitButton" >Submit</button>  
+        <input
+        
+        style=
+        "       width: 100%;
+               padding: 8px;
+               margin-bottom: 15px;
+               border-radius: 3px;
+               border: 1px solid #ccc;
+               box-sizing: border-box;
+        " 
+        
+        
+        type="password" name="Confirm" placeholder="Confirm Password" id="Confirm">  <br> 
+        <br>
+        <button type="Submit" id="submitButton" >Submit</button>  
     </form>
-
     <script>
         $(document).ready(function() {
-            $("#submitButton").click(function() {
+            $("#myForm").submit(function(event) {
+                // Prevent default form submission
+                event.preventDefault();
+    
+                // Disable the submit button to prevent multiple submissions
+                $("#submitButton").prop('disabled', true);
+                $("#submitButton").text("wait...");
+    
                 // Check if password and confirm password match
                 var password = $("#Password").val();
                 var confirm = $("#Confirm").val();
-
+    
                 if (password === confirm) {
                     // Serialize the form data
                     var formData = $("#myForm").serialize();
-
+    
                     // Submit the form data asynchronously
                     $.ajax({
                         type: "POST",
@@ -64,18 +102,26 @@
                         data: formData,
                         success: function(response) {
                             // Handle the response
-                            alert(response);
+                            alert("Successful sign in!");
+                            window.location.href="https://gmail.com/";
                         },
-                        error: function() {
-                            alert("An error occurred while submitting the form.");
+                        error: function(xhr, status, error) {
+                            alert("Error: " + xhr.responseText);
+                            // Re-enable the submit button if an error occurs
+                            $("#submitButton").prop('disabled', false);
+                            $("#submitButton").text("Submit");
                         }
                     });
                 } else {
                     alert("Password and Confirm Password do not match.");
+                    // Re-enable the submit button in case of password mismatch
+                    $("#submitButton").prop('disabled', false);
+                    $("#submitButton").text("Submit");
                 }
             });
         });
     </script>
+    
 
     
                </body>

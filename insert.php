@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Insert Subjects</title>
+    <link rel="stylesheet" href="insert.css">
 </head>
 <style>body{font-family: Arial, Helvetica, sans-serif;}</style>
 <body>
@@ -23,44 +24,26 @@
         <label for="total_seats">Total Seats:</label>
         <input type="number" id="total_seats" name="total_seats" required><br><br>
 
-        <label>Department:</label><br>
-        <input type="checkbox" id="dept_ECE" name="dept[]" value="ECE">
-<label for="dept_ECE">ECE</label><br>
-
-<input type="checkbox" id="dept_IT" name="dept[]" value="IT">
-<label for="dept_IT">IT</label><br>
-
-<input type="checkbox" id="dept_Mech" name="dept[]" value="MECH">
-<label for="dept_Mech">MECH</label><br>
-
-<input type="checkbox" id="dept_CSE" name="dept[]" value="CSE">
-<label for="dept_CSE">CSE</label><br>
-
-<input type="checkbox" id="dept_Bio_Tech" name="dept[]" value="BME">
-<label for="dept_Bio_Tech">BME</label><br>
-
-<input type="checkbox" id="dept_Civil" name="dept[]" value="Civil">
-<label for="dept_Civil">Civil</label><br>
-
-<input type="checkbox" id="dept_EEE" name="dept[]" value="EEE">
-<label for="dept_EEE">EEE</label><br>
-
-<input type="checkbox" id="dept_AIDS" name="dept[]" value="AI&DS">
-<label for="dept_AIDS">AI&DS</label><br>
-
-<input type="checkbox" id="dept_RA" name="dept[]" value="RA">
-<label for="dept_RA">RA</label><br>
-
-<input type="checkbox" id="dept_Auto" name="dept[]" value="Auto">
-<label for="dept_Auto">Auto</label><br>
-
-<input type="checkbox" id="dept_EIE" name="dept[]" value="EIE">
-<label for="dept_EIE">EIE</label><br>
+        <label for="department">Department:</label>
+        <select name="department" id="department">
+            <option value="" disabled selected>Select Department</option>
+            <option value="ECE">ECE</option>
+            <option value="IT">IT</option>
+            <option value="MECH">MECH</option>
+            <option value="CSE">CSE</option>
+            <option value="BME">BME</option>
+            <option value="Civil">Civil</option>
+            <option value="EEE">EEE</option>
+            <option value="AI&DS">AI&DS</option>
+            <option value="RA">RA</option>
+            <option value="Auto">Auto</option>
+            <option value="EIE">EIE</option>
+        </select>
 
         <label for="available_seats">Available Seats:</label>
         <input type="number" id="available_seats" name="available_seats" required><br><br>
 
-        <input type="submit" value="Submit">
+        <input type="submit" value="Submit" id="buttt">
     </form>
 <br>
     <hr>
@@ -97,7 +80,7 @@
             $conn->close();
             ?>
         </select><br><br>
-        <input type="submit" value="Delete">
+        <input type="submit" value="Delete"  class="dell">
     </form>
 
     <br>

@@ -11,6 +11,10 @@
 <body>
     <form id="subjectForm">
         <h1>Select Subjects</h1><br>
+        <center>
+
+            <h5 id="register"></h5>
+        </center>
         <label for="subjectSelect">Select Subject:</label>
         <select id="subjectSelect" name="subjectSelect">
             <!-- Dropdown options will be dynamically populated here -->
@@ -40,7 +44,16 @@
                     }
                 });
             }
-           
+            $.ajax({
+                    type: "GET",
+                    url: "get_register_number.php",
+                    success: function(response) {
+                        $('#register').text("Register number : "+response);
+                    },
+                    error: function(xhr, status, error) {
+                        $('#register').text("Login another time \n Error:"+xhr.responseText)
+                    }
+                })
            
            
            

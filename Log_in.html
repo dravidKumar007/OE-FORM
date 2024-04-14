@@ -15,23 +15,32 @@
             <h1>LOG IN</h1><br>
             
             <label for="Email">Email</label>
-            <input type="email" name="Email" id="Email" placeholder="Enter email"><br><br>
+            <input style="width: 100%;" type="email" name="Email" id="Email" required placeholder="Enter your Email Id"><br><br>
             <label for="Password">Password</label>
-            <input type="password" name="Password" id="Password"><br><br>
-            <button type="button" id="submitButton">Submit</button>  
+            <input type="password" required style="width: 100%;" name="Password" id="Password" placeholder="Enter your Password"><br><br>
+            <button type="submit" id="submitButton">Submit</button>  
        
      </form>
 </body>
-
 <script>
     $(document).ready(function() {
-        $("#submitButton").click(function() {
+        $("#myForm").submit(function(event) {
+                // Prevent default form submission
+                event.preventDefault();
+            // Disable the submit button
+            $('#submitButton').prop('disabled', true);
+            $("#submitButton").text('Wait...');
+        
+
             var email = $("#Email").val().trim();
             var password = $("#Password").val().trim();
             
             // Validate email and password (client-side)
             if (email === "" || password === "") {
                 alert("Please enter both email and password.");
+                // Re-enable the submit button
+                $("#submitButton").prop('disabled', false);
+                $("#submitButton").text('Submit');
                 return;
             }
 
@@ -41,17 +50,19 @@
                 url: "login.php",
                 data: { email: email, password: password },
                 success: function(response) {
-                   
-                        // Display appropriate error message if login fails
-                        alert(response);  window.location.href = "book.html";
-                    
+                    // Display appropriate error message if login fails
+                    alert(response);
+                    window.location.href = "book.html";
                 },
                 error: function(xhr, status, error) {
-                    // Display a generic error message for server errors
-                    alert("An error occurred while processing your request: " + xhr.responseText);
+                    alert("An error occurred while submitting the form: " + xhr.responseText);
+                    // Re-enable the submit button
+                    $("#submitButton").prop('disabled', false);
+                    $("#submitButton").text('Submit');
                 }
             });
         });
     });
 </script>
+
 </html>
